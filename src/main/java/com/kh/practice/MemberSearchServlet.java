@@ -40,6 +40,18 @@ public class MemberSearchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 클라이언트에서 전달한 이름이 포함된 회원을 mockList에서 조회한 후 새로운
 		// List에 담은 후 , 적절한 scope에 담아 result.jsp로 응답처리 위임할 것. 
+		request.setCharacterEncoding("utf-8");
+		List<Member> list = new ArrayList<>();
+		if (request.getParameter("name") != "") {
+			for(Member m : mockList) {
+				if (m.getName().contains(request.getParameter("name"))) {
+					list.add(m);
+				}
+			}
+		}
+		request.getSession().setAttribute("list", list);
+		response.setCharacterEncoding("utf-8");
+		response.sendRedirect("result.jsp");
 	}
 
 }
