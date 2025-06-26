@@ -15,8 +15,21 @@
 		2. 작업시에는 core라이브러의 태그들을 사용할 것
 	 -->
 	<div>
-		<c:set var="list" value="${sessionScope.list}"/>
-		<c:choose>
+		<c:if test="${empty list}">
+			<p style="color:red;">해당 이름의 회원이 존재하지 않습니다.</p>
+		</c:if>
+		<c:if test="${not empty list}">
+			<c:forEach items="${list}" var="m">
+				<div class="member">
+		            <p>이름: ${m.name}</p>
+		            <p>나이: ${m.age}</p>
+		            <p>성별: ${m.gender}</p>
+				</div>	
+			</c:forEach>
+		</c:if>
+		
+<%-- 		<c:set var="list" value="${requestScope.list}"/> --%>
+<%-- 		<c:choose>
 			<c:when test="${list.size() eq 0}">
 				<!-- 일치하는 회원이 존재하지 않는 경우 -->
 				<p style="color:red;">해당 이름의 회원이 존재하지 않습니다.</p>
@@ -30,7 +43,7 @@
 					</div>	
 				</c:forEach>
 			</c:otherwise>
-		</c:choose>
+		</c:choose> --%>
 		<!-- "성"을 검색한 경우 회원정보 출력예시 -->
  		<!-- <div class="member">
             <p>이름: 심은성</p>

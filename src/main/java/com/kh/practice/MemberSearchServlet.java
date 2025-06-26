@@ -3,7 +3,9 @@ package com.kh.practice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,15 +45,20 @@ public class MemberSearchServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		List<Member> list = new ArrayList<>();
 		if (request.getParameter("name") != "") {
+			/*
 			for(Member m : mockList) {
 				if (m.getName().contains(request.getParameter("name"))) {
 					list.add(m);
 				}
 			}
+			*/
+			list = mockList.stream().filter(m ->
+				m.getName().contains(request.getParameter("name"))
+			).collect(Collectors.toList());
 		}
-		request.getSession().setAttribute("list", list);
-		response.setCharacterEncoding("utf-8");
-		response.sendRedirect("result.jsp");
+		request.setAttribute("list", list);
+//		response.setCharacterEncoding("utf-8");
+		request.getRequestDispatcher("result.jsp").forward(request, response);
 	}
 
 }
